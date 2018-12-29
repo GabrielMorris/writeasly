@@ -33,7 +33,7 @@ const client = new Client();
 ```
 const client = new Client();
 
-client.authenticate(<username>, <password>).catch(error => {
+client.authenticate(username, password).catch(error => {
   // Handle authentication errors
 })
 ```
@@ -76,7 +76,6 @@ client
 An unauthenticated client will create an anonymous, unclaimed post, whereas an authenticated client will create an anonymous, claimed post that does not belong to a collection.
 
 ```
-
 const client = new Client();
 
 client.createPost(
@@ -86,26 +85,22 @@ body,
   .then(post => {
   // Do things with post
 })
-
 ```
 
 #### Get a post by ID
 
 ```
-
 const client = new Client();
 
 client.getPost(id)
   .then(post => {
   // Do things with post
 })
-
 ```
 
 #### Update a post by ID
 
 ```
-
 const client = new Client();
 
 client.updatePost(postID, data, token)
@@ -114,11 +109,10 @@ client.updatePost(postID, data, token)
 })
 
 client.getPost(postID)
-  .then(post => post.update(body, <{title, font, lang, rtl}>))
+  .then(post => post.update(body, {title, font, lang, rtl}))
   .then(updatedPost => {
   // Do things with updated post
 })
-
 ```
 
 #### Delete a post by ID
@@ -126,13 +120,11 @@ client.getPost(postID)
 Returns a 204 status code upon deletion success
 
 ```
-
 const client = new Client();
 
 client.getPost(postID)
   .then(post => post.delete())
   .then(response => console.log(response))
-
 ```
 
 #### Claim a post by ID
@@ -144,7 +136,6 @@ WIP
 Returns status code 410 with an error_msg detailing successful unpublish.
 
 ```
-
 const client = new Client();
 
 client.getPost(postID)
@@ -158,7 +149,6 @@ client.getPost(postID)
 Returns an array of a user's collections (blogs).
 
 ```
-
 const client = new Client();
 
 client.authenticate(username, password);
@@ -167,7 +157,6 @@ client.getUserCollections()
   .then(collections => {
   // Do things with collections
 })
-
 ```
 
 #### Get a collection by alias (blog title)
@@ -175,14 +164,12 @@ client.getUserCollections()
 Returns a collection object for a given blog
 
 ```
-
 const client = new Client();
 
 client.getCollectionByAlias(alias)
   .then(collection => {
   // Do things with collection
 })
-
 ```
 
 #### Get a collection's posts
@@ -190,7 +177,6 @@ client.getCollectionByAlias(alias)
 Returns an array of posts from a given collection
 
 ```
-
 const client = new Client();
 
 client.getCollectionByAlias(alias)
@@ -198,7 +184,6 @@ client.getCollectionByAlias(alias)
   .then(posts => {
   // Do things with posts
 })
-
 ```
 
 #### Get a collection's post by its slug (title)
@@ -206,13 +191,11 @@ client.getCollectionByAlias(alias)
 Returns a post object for a post by its slug.
 
 ```
-
 client.getCollectionByAlias(alias)
   .then(collection => collection.getPostBySlug(slug))
 .then(post => {
   // Do things with post
 })
-
 ```
 
 #### Create a new collection post
@@ -220,7 +203,6 @@ client.getCollectionByAlias(alias)
 As opposed to client.createPost() this will create a post on a given collection (blog). Returns the post object.
 
 ```
-
 client.getCollectionByAlias(alias)
   .then(collection => collection.createNewCollectionPost({
   title: 'Hello',
@@ -229,7 +211,6 @@ client.getCollectionByAlias(alias)
   .then(post => {
   // Do things with post
 })
-
 ```
 
 #### Pin a post to a collection
@@ -237,7 +218,6 @@ client.getCollectionByAlias(alias)
 Pins a post to the top of a collection. Returns the response object
 
 ```
-
 client.getCollectionByAlias('cocoa')
   .then(collection => {
   collection.pinPostOnCollection('ywlfu4gkyfbhrti5');
@@ -245,7 +225,6 @@ client.getCollectionByAlias('cocoa')
   .then(response => {
   // Do things with response
 })
-
 ```
 
 #### Unpin a post on a collection
@@ -253,12 +232,10 @@ client.getCollectionByAlias('cocoa')
 Unpins a post from a collection. Returns the response object
 
 ```
-
 client.getCollectionByAlias('cocoa')
   .then(collection => collection.unpinPostOnCollection(postID)
   )
   .then(response => {
   // Do things with response
 })
-
 ```
