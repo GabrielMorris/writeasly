@@ -19,6 +19,12 @@ export default class Client {
     this.accessToken = accessToken;
   }
 
+  /**
+   *
+   * @param {String} username - Username of the user to be logged in
+   * @param {String} password - Password of the user to be logged in
+   * @param {String} type - Type of request to be made. Currently only supports HTTPS authentication
+   */
   async authenticate(username, password, type) {
     const response = await this._request('POST', '/auth/login', {
       alias: username,
@@ -32,6 +38,9 @@ export default class Client {
     this.accessToken = response.data.access_token;
   }
 
+  /**
+   * Logs the currently authenticated user out, if client is authenticated, and invalidates their current authentication token.
+   */
   logout() {
     return this._request('DELETE', '/auth/me').then(response => {
       if (response.code !== 204) {
@@ -43,6 +52,9 @@ export default class Client {
     // TODO: handle errors
   }
 
+  /**
+   * Returns the currently authenticated user, if the client is authenticated and the token is valid, or throws an authentication error.
+   */
   getCurrentAuthenticatedUser() {
     return this._request('GET', '/me').then(response => {
       if (response.code !== 204) {
@@ -54,6 +66,12 @@ export default class Client {
   }
 
   // TODO: make this less awful
+  /**
+   *
+   * @param {String} method - HTTP method of the request to be made (GET, POST, DELETE are supported)
+   * @param {String} path - API endpoint location. '/api/' is implicit and should not be included
+   * @param {Object} data - Object of data to be passed in as the JSON body of the request
+   */
   async _request(method, path, data) {
     console.log(`${this.endpoint}${path}`, method);
 
@@ -132,6 +150,7 @@ export default class Client {
 
   /* === POST MANAGEMENT === */
   /**
+   * Creates an anonymous post that is either truly anonymous (not tied to a user's account) or pseudoanonymous (tied to a user's account, but not connected to any collection)
    * @param  {object} body - Object of post body
    * @param  {string} title - String representation of post title
    * @param  {string} font - Post's font
@@ -165,6 +184,7 @@ export default class Client {
   }
 
   /**
+   * Returns the post that corresponds to the postID that is passed to it.
    * @param  {string} postID - ID of post to retreieve
    *
    * @returns {Promise} promise that resolves to post JSON
@@ -177,6 +197,9 @@ export default class Client {
 
   /* === USER MANAGEMENT === */
   /* ===== COLLECTIONS ===== */
+  /**
+   * Returns an array of all of the the currently authenticated user's collections. Requires client to be authenticated.
+   */
   getUserCollections() {
     return this._request('GET', `/me/collections`).then(collections =>
       collections.data.map(collection => new Collection(this, collection))
@@ -184,6 +207,9 @@ export default class Client {
     // TODO: handle errors
   }
 
+  /**
+   * Returns a collection (blog) object based on its name (title).
+   */
   getCollectionByAlias(alias) {
     return this._request('GET', `/collections/${alias}`).then(collection => {
       return new Collection(this, collection.data);
@@ -192,6 +218,9 @@ export default class Client {
   }
 
   /* ===== POSTS ===== */
+  /**
+   * Gets all of the currently authenticated user's posts and returns an array of Post objects. Requires client to be authenticated.
+   */
   getUserPosts() {
     return this._request('GET', '/me/posts').then(response => {
       return response.data.map(post => new Post(this, post));
