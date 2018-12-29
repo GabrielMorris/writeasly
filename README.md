@@ -291,7 +291,7 @@ writeasly is a work in progress and is missing some features in the API. However
 
 ✅ Retrieve authenticated user
 
-❌ Get a user's posts
+✅ Get a user's posts
 
 ✅ Get a user's collections
 
