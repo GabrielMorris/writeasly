@@ -158,6 +158,17 @@ client.getUserCollections()
 })
 ```
 
+#### Get a user's posts
+
+Returns an array of a user's posts
+
+```
+client.getUserPosts()
+  .then(posts => {
+    // Do things with posts
+})
+```
+
 #### Get a collection by alias (blog title)
 
 Returns a collection object for a given blog
