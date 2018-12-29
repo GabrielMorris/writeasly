@@ -1,0 +1,26 @@
+{
+  "name": "writeasly",
+  "version": "0.0.1",
+  "description": "Write.as client library",
+  "main": "src/client.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devsnek/writeas.js.git"
+  },
+  "author": "Cocoa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GabrielMorris/writeasly/issues"
+  },
+  "homepage": "https://github.com/GabrielMorris/writeasly",
+  "scripts": {
+    "start": "npx babel-node index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
