@@ -128,7 +128,15 @@ client.getPost(postID)
 
 #### Claim a post by ID
 
-WIP
+Claims an anonymous post. Note that the token is the post's update token that is returned upon publishing an anonymous post, and not the user's access token.
+
+```
+client.getPost(postID)
+  .then(post => post.claim(token))
+  .then(response => {
+    // Do things with response
+})
+```
 
 #### Unpublish a post by ID
 
