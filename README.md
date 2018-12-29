@@ -296,6 +296,6 @@ writeasly is a work in progress and is missing some features in the API. However
 
 ❌ Get a user's channels (integrations)
 
-### Integrations (crossposting
+### Integrations (crossposting)
 
 ✅ Crossposting
