@@ -1,8 +1,8 @@
 {
   "name": "writeasly",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Write.as client library",
-  "main": "src/client.js",
+  "main": "dist/Client.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devsnek/writeas.js.git"
@@ -17,7 +17,8 @@
     "start": "npx babel-node index.js"
   },
   "dependencies": {
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "regenerator-runtime": "^0.13.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -21,7 +21,8 @@ yarn add writeasly
 #### Import the library
 
 ```
-import Client from 'writeasly';
+import Client from 'writeasly'; // ES6
+const Client = require('writeasly').default; // CommonJS
 
 const client = new Client();
 ```

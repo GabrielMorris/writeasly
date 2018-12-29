@@ -6,6 +6,8 @@ import Post from './Post';
 import { endpoints } from './endpoints';
 import Collection from './Collection';
 
+import regeneratorRuntime from 'regenerator-runtime';
+
 export default class Client {
   // When we do new Client() we can pass in a token or a type to have that client be able to perform actions on behalf of a user
   constructor(accessToken, type = 'https') {
