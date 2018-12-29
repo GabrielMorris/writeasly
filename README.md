@@ -75,8 +75,6 @@ client
 An unauthenticated client will create an anonymous, unclaimed post, whereas an authenticated client will create an anonymous, claimed post that does not belong to a collection.
 
 ```
-const client = new Client();
-
 client.createPost(
   body,
   <{title, font, lang, rtl, crosspost}>
@@ -89,8 +87,6 @@ client.createPost(
 #### Get a post by ID
 
 ```
-const client = new Client();
-
 client.getPost(id)
   .then(post => {
   // Do things with post
@@ -100,8 +96,6 @@ client.getPost(id)
 #### Update a post by ID
 
 ```
-const client = new Client();
-
 client.updatePost(postID, data, token)
   .then(post => {
   // Do stuff with updated post object
@@ -119,8 +113,6 @@ client.getPost(postID)
 Returns a 204 status code upon deletion success
 
 ```
-const client = new Client();
-
 client.getPost(postID)
   .then(post => post.delete())
   .then(response => console.log(response))
@@ -143,8 +135,6 @@ client.getPost(postID)
 Returns status code 410 with an error_msg detailing successful unpublish.
 
 ```
-const client = new Client();
-
 client.getPost(postID)
   .then(post => post.unpublish())
   .then(response => console.log(response))
@@ -156,8 +146,6 @@ client.getPost(postID)
 Returns an array of a user's collections (blogs).
 
 ```
-const client = new Client();
-
 client.authenticate(username, password);
 
 client.getUserCollections()
@@ -182,8 +170,6 @@ client.getUserPosts()
 Returns a collection object for a given blog
 
 ```
-const client = new Client();
-
 client.getCollectionByAlias(alias)
   .then(collection => {
   // Do things with collection
@@ -195,8 +181,6 @@ client.getCollectionByAlias(alias)
 Returns an array of posts from a given collection
 
 ```
-const client = new Client();
-
 client.getCollectionByAlias(alias)
   .then(collection => collection.getPosts())
   .then(posts => {
