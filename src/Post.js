@@ -33,8 +33,8 @@ export default class Post {
   }
 
   // TODO: This should be updated so that we don't need to pass an empty object. Issue is that we end up going for generic no body _request without it
-  delete() {
-    return this.client._request('DELETE', `/posts/${this.id}`, {});
+  delete(token = '') {
+    return this.client._request('DELETE', `/posts/${this.id}`, { token });
     // TODO: handle errors
   }
 }

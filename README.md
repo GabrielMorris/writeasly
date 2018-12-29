@@ -253,11 +253,9 @@ writeasly is a work in progress and is missing some features in the API. However
 
 ✅ Update a claimed post
 
-❌ Unpublish an anonymous post
-
 ✅ Unpublish a claimed post
 
-❌ Delete an anonymous post
+✅ Delete an anonymous post
 
 ✅ Delete a claimed post
 
@@ -294,8 +292,6 @@ writeasly is a work in progress and is missing some features in the API. However
 ✅ Get a user's posts
 
 ✅ Get a user's collections
-
-❌ Get a user's channels (integrations)
 
 ### Integrations (crossposting)
 

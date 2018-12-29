@@ -122,6 +122,7 @@ export default class Client {
           headers
         });
 
+        console.log(response);
         return await response.json();
       } catch (error) {
         return console.log(error);
@@ -174,19 +175,6 @@ export default class Client {
       .catch(error => console.error(error));
   }
 
-  /**
-   * @param  {string} postID - ID of post to be updated
-   * @param  {string} token - User authorization token of post to be updated
-   */
-  deletePost(postID, token) {
-    if (!token) {
-      throw new Error('Missing token');
-    }
-
-    return this._request('DELETE', `/posts/${postID}`, {}, token);
-    // TODO: handle errors
-  }
-
   /* === USER MANAGEMENT === */
   /* ===== COLLECTIONS ===== */
   getUserCollections() {
@@ -198,7 +186,7 @@ export default class Client {
 
   getCollectionByAlias(alias) {
     return this._request('GET', `/collections/${alias}`).then(collection => {
-      new Collection(this, collection.data);
+      return new Collection(this, collection.data);
     });
     // TODO: handle errors
   }
@@ -209,4 +197,12 @@ export default class Client {
       return response.data.map(post => new Post(this, post));
     });
   }
+
+  /* ===== CHANNELS/INTEGRATIONS ===== */
+  // API endpoint seems to be busted
+  // getUserChannels() {
+  //   return this._request('GET', '/me/channels').then(response => {
+  //     console.log(response);
+  //   });
+  // }
 }
