@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.__useDefault = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // Modules
 
@@ -171,7 +170,7 @@ var Client = function () {
                 return _context2.abrupt('return', console.log(_context2.t0));
 
               case 18:
-                _context2.next = 53;
+                _context2.next = 54;
                 break;
 
               case 20:
@@ -213,7 +212,7 @@ var Client = function () {
                 return _context2.abrupt('return', console.log(_context2.t1));
 
               case 36:
-                _context2.next = 53;
+                _context2.next = 54;
                 break;
 
               case 38:
@@ -238,23 +237,26 @@ var Client = function () {
 
               case 44:
                 _response2 = _context2.sent;
-                _context2.next = 47;
+
+
+                console.log(_response2);
+                _context2.next = 48;
                 return _response2.json();
 
-              case 47:
+              case 48:
                 return _context2.abrupt('return', _context2.sent);
 
-              case 50:
-                _context2.prev = 50;
+              case 51:
+                _context2.prev = 51;
                 _context2.t2 = _context2['catch'](41);
                 return _context2.abrupt('return', console.log(_context2.t2));
 
-              case 53:
+              case 54:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[6, 15], [24, 33], [41, 50]]);
+        }, _callee2, this, [[6, 15], [24, 33], [41, 51]]);
       }));
 
       function _request(_x5, _x6, _x7) {
@@ -324,23 +326,8 @@ var Client = function () {
       });
     }
 
-    /**
-     * @param  {string} postID - ID of post to be updated
-     * @param  {string} token - User authorization token of post to be updated
-     */
-
-  }, {
-    key: 'deletePost',
-    value: function deletePost(postID, token) {
-      if (!token) {
-        throw new Error('Missing token');
-      }
-
-      return this._request('DELETE', '/posts/' + postID, {}, token);
-      // TODO: handle errors
-    }
-
-    /* === USER COLLECTIONS === */
+    /* === USER MANAGEMENT === */
+    /* ===== COLLECTIONS ===== */
 
   }, {
     key: 'getUserCollections',
@@ -364,10 +351,32 @@ var Client = function () {
       });
       // TODO: handle errors
     }
+
+    /* ===== POSTS ===== */
+
+  }, {
+    key: 'getUserPosts',
+    value: function getUserPosts() {
+      var _this5 = this;
+
+      return this._request('GET', '/me/posts').then(function (response) {
+        return response.data.map(function (post) {
+          return new _Post2.default(_this5, post);
+        });
+      });
+    }
+
+    /* ===== CHANNELS/INTEGRATIONS ===== */
+    // API endpoint seems to be busted
+    // getUserChannels() {
+    //   return this._request('GET', '/me/channels').then(response => {
+    //     console.log(response);
+    //   });
+    // }
+
   }]);
 
   return Client;
 }();
 
 exports.default = Client;
-var __useDefault = exports.__useDefault = true;

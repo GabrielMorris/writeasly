@@ -26,13 +26,10 @@ var Post = function () {
     this.token = data.token || null;
   }
 
-  // TODO: Update all of these to use the .request function from Client.js. The function belongs to the client class, so we will be able to use it here which will provide the context of the endpoint and such, but we will also be in the *post* class, and therefore have access to the post's information (id, etc)
-
-
   _createClass(Post, [{
     key: 'claim',
     value: function claim(token) {
-      return this.client._req('post', '/posts/claim', { id: this.id, token: token });
+      return this.client._request('post', '/posts/claim', [{ id: this.id, token: token }]);
       // TODO: handle errors
     }
   }, {
@@ -57,13 +54,12 @@ var Post = function () {
       return this.client._request('POST', '/posts/' + this.id, { body: '' });
       // TODO: handle errors
     }
-
-    // TODO: This should be updated so that we don't need to pass an empty object. Issue is that we end up going for generic no body _request without it
-
   }, {
     key: 'delete',
     value: function _delete() {
-      return this.client._request('DELETE', '/posts/' + this.id, {});
+      var token = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      return this.client._request('DELETE', '/posts/' + this.id, { token: token });
       // TODO: handle errors
     }
   }]);
