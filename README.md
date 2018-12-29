@@ -245,34 +245,55 @@ writeasly is a work in progress and is missing some features in the API. However
 ### Posts
 
 ✅ Publish an anonymous post
+
 ✅ Retrieve a post
+
 ❌ Update an anonymous post
+
 ✅ Update a claimed post
+
 ❌ Unpublish an anonymous post
+
 ✅ Unpublish a claimed post
+
 ❌ Delete an anonymous post
+
 ✅ Delete a claimed post
+
 ✅ Claim an anonymous post
 
 ### Collections (blogs)
 
 ❌ Create a collection
+
 ✅ Retrieve a collection
+
 ❌ Delete a collection
+
 ✅ Retrieve a collection post
+
 ✅ Publish a collection post
+
 ✅ Retrieve all collection posts
+
 ❌ Move a post to a collection
+
 ✅ Pin a post to a collection
+
 ✅ Unpin a post from a collection
 
 ### Users
 
 ✅ Authenticate a user
+
 ✅ Log a user out
+
 ✅ Retrieve authenticated user
+
 ❌ Get a user's posts
+
 ✅ Get a user's collections
+
 ❌ Get a user's channels (integrations)
 
 ### Integrations (crossposting
