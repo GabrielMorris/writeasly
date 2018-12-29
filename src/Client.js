@@ -38,6 +38,7 @@ export default class Client {
 
       return response;
     });
+    // TODO: handle errors
   }
 
   getCurrentAuthenticatedUser() {
@@ -50,6 +51,7 @@ export default class Client {
     });
   }
 
+  // TODO: make this less awful
   async _request(method, path, data) {
     console.log(`${this.endpoint}${path}`, method);
 
@@ -180,6 +182,7 @@ export default class Client {
     }
 
     return this._request('DELETE', `/posts/${postID}`, {}, token);
+    // TODO: handle errors
   }
 
   /* === USER COLLECTIONS === */
@@ -187,11 +190,13 @@ export default class Client {
     return this._request('GET', `/me/collections`).then(collections =>
       collections.data.map(collection => new Collection(this, collection))
     );
+    // TODO: handle errors
   }
 
   getCollectionByAlias(alias) {
     return this._request('GET', `/collections/${alias}`).then(
       collection => new Collection(this, collection.data)
     );
+    // TODO: handle errors
   }
 }

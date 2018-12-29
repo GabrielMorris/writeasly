@@ -2,11 +2,9 @@
 
 ## Description
 
-writeasly is a Javascript library implementing the [write.as](https://write.as/) API. It is based on [writeas.js](https://github.com/devsnek/writeas.js) by [devsnek](https://github.com/devsnek).
+writeasly ("write-easily" - I know, I know, terrible!) is a Javascript library implementing the [write.as](https://write.as/) API. It is based on [writeas.js](https://github.com/devsnek/writeas.js) by [devsnek](https://github.com/devsnek).
 
 ## Installation
-
-### npm/yarn
 
 ```
 npm install writeasly
@@ -79,8 +77,8 @@ An unauthenticated client will create an anonymous, unclaimed post, whereas an a
 const client = new Client();
 
 client.createPost(
-body,
-<{title, font, lang, rtl, crosspost}>
+  body,
+  <{title, font, lang, rtl, crosspost}>
 )
   .then(post => {
   // Do things with post
@@ -193,7 +191,7 @@ Returns a post object for a post by its slug.
 ```
 client.getCollectionByAlias(alias)
   .then(collection => collection.getPostBySlug(slug))
-.then(post => {
+  .then(post => {
   // Do things with post
 })
 ```
@@ -239,3 +237,44 @@ client.getCollectionByAlias('cocoa')
   // Do things with response
 })
 ```
+
+## Features
+
+writeasly is a work in progress and is missing some features in the API. However, most functionality is implemented. List of supported endpoints:
+
+### Posts
+
+✅ Publish an anonymous post
+✅ Retrieve a post
+❌ Update an anonymous post
+✅ Update a claimed post
+❌ Unpublish an anonymous post
+✅ Unpublish a claimed post
+❌ Delete an anonymous post
+✅ Delete a claimed post
+✅ Claim an anonymous post
+
+### Collections (blogs)
+
+❌ Create a collection
+✅ Retrieve a collection
+❌ Delete a collection
+✅ Retrieve a collection post
+✅ Publish a collection post
+✅ Retrieve all collection posts
+❌ Move a post to a collection
+✅ Pin a post to a collection
+✅ Unpin a post from a collection
+
+### Users
+
+✅ Authenticate a user
+✅ Log a user out
+✅ Retrieve authenticated user
+❌ Get a user's posts
+✅ Get a user's collections
+❌ Get a user's channels (integrations)
+
+### Integrations (crossposting
+
+✅ Crossposting

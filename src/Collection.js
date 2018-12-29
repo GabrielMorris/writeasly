@@ -14,18 +14,22 @@ export default class Collection {
   }
 
   getPosts() {
-    return this.client
-      ._request('GET', `/collections/${this.alias}/posts`)
-      .then(response =>
-        response.data.posts.map(post => new Post(this.client, post))
-      )
-      .catch(error => console.error(error));
+    return (
+      this.client
+        ._request('GET', `/collections/${this.alias}/posts`)
+        .then(response =>
+          response.data.posts.map(post => new Post(this.client, post))
+        )
+        // TODO: do something with this error
+        .catch(error => console.error(error))
+    );
   }
 
   getPostBySlug(slug) {
     return this.client
       ._request('GET', `/collections/${this.alias}/posts/${slug}`)
       .then(response => new Post(this.client, response.data));
+    // TODO: handle erros
   }
 
   // TODO: Write this. Use a dummy account, dummy ;)
@@ -35,6 +39,7 @@ export default class Collection {
     return this.client
       ._request('POST', `/collections/${this.alias}/posts`, dataObject)
       .then(response => new Post(this.client, response.data));
+    // TODO: handle errors
   }
 
   pinPostOnCollection(postID, position) {
@@ -46,11 +51,13 @@ export default class Collection {
         }
       ])
       .then(response => response);
+    // TODO: handle errors
   }
 
   unpinPostOnCollection(postID) {
     return this.client
       ._request('POST', `/collections/${this.alias}/pin`, [{ postID }])
       .then(response => response);
+    // TODO: handle errors
   }
 }
