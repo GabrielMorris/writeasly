@@ -187,7 +187,8 @@ export default class Client {
     // TODO: handle errors
   }
 
-  /* === USER COLLECTIONS === */
+  /* === USER MANAGEMENT === */
+  /* ===== COLLECTIONS ===== */
   getUserCollections() {
     return this._request('GET', `/me/collections`).then(collections =>
       collections.data.map(collection => new Collection(this, collection))
@@ -196,9 +197,16 @@ export default class Client {
   }
 
   getCollectionByAlias(alias) {
-    return this._request('GET', `/collections/${alias}`).then(
-      collection => new Collection(this, collection.data)
-    );
+    return this._request('GET', `/collections/${alias}`).then(collection => {
+      new Collection(this, collection.data);
+    });
     // TODO: handle errors
+  }
+
+  /* ===== POSTS ===== */
+  getUserPosts() {
+    return this._request('GET', '/me/posts').then(response => {
+      return response.data.map(post => new Post(this, post));
+    });
   }
 }
