@@ -1,21 +1,19 @@
-# writeas.js
+# writeasly
 
 ## Description
 
-writeas.js is a Javascript library implementing the [write.as](https://write.as/) API.
+writeasly is a Javascript library implementing the [write.as](https://write.as/) API. It is based on [writeas.js](https://github.com/devsnek/writeas.js) by [devsnek](https://github.com/devsnek).
 
 ## Installation
 
-### npm
+### npm/yarn
 
 ```
-npm install writeas
-```
+npm install writeasly
 
-### yarn
+or
 
-```
-yarn add writeas
+yarn add writeasly
 ```
 
 ## Usage
@@ -25,7 +23,7 @@ yarn add writeas
 #### Import the library
 
 ```
-import Client from 'writeas';
+import Client from 'writeasly';
 
 const client = new Client();
 ```
@@ -33,8 +31,6 @@ const client = new Client();
 #### Authenticate
 
 ```
-import Client from 'writeas';
-
 const client = new Client();
 
 client.authenticate(<username>, <password>).catch(error => {
@@ -87,8 +83,8 @@ client.createPost(
 body,
 <{title, font, lang, rtl, crosspost}>
 )
-.then(post => {
-// Do things with post
+  .then(post => {
+  // Do things with post
 })
 
 ```
@@ -100,8 +96,8 @@ body,
 const client = new Client();
 
 client.getPost(id)
-.then(post => {
-// Do things with post
+  .then(post => {
+  // Do things with post
 })
 
 ```
@@ -113,14 +109,14 @@ client.getPost(id)
 const client = new Client();
 
 client.updatePost(postID, data, token)
-.then(post => {
-// Do stuff with updated post object
+  .then(post => {
+  // Do stuff with updated post object
 })
 
 client.getPost(postID)
-.then(post => post.update(body, <{title, font, lang, rtl}>))
-.then(updatedPost => {
-// Do things with updated post
+  .then(post => post.update(body, <{title, font, lang, rtl}>))
+  .then(updatedPost => {
+  // Do things with updated post
 })
 
 ```
@@ -134,8 +130,8 @@ Returns a 204 status code upon deletion success
 const client = new Client();
 
 client.getPost(postID)
-.then(post => post.delete())
-.then(response => console.log(response))
+  .then(post => post.delete())
+  .then(response => console.log(response))
 
 ```
 
@@ -152,8 +148,8 @@ Returns status code 410 with an error_msg detailing successful unpublish.
 const client = new Client();
 
 client.getPost(postID)
-.then(post => post.unpublish())
-.then(response => console.log(response))
+  .then(post => post.unpublish())
+  .then(response => console.log(response))
 
 ```
 
@@ -168,8 +164,8 @@ const client = new Client();
 client.authenticate(username, password);
 
 client.getUserCollections()
-.then(collections => {
-// Do things with collections
+  .then(collections => {
+  // Do things with collections
 })
 
 ```
@@ -183,8 +179,8 @@ Returns a collection object for a given blog
 const client = new Client();
 
 client.getCollectionByAlias(alias)
-.then(collection => {
-// Do things with collection
+  .then(collection => {
+  // Do things with collection
 })
 
 ```
@@ -198,9 +194,9 @@ Returns an array of posts from a given collection
 const client = new Client();
 
 client.getCollectionByAlias(alias)
-.then(collection => collection.getPosts())
-.then(posts => {
-// Do things with posts
+  .then(collection => collection.getPosts())
+  .then(posts => {
+  // Do things with posts
 })
 
 ```
@@ -212,9 +208,9 @@ Returns a post object for a post by its slug.
 ```
 
 client.getCollectionByAlias(alias)
-.then(collection => collection.getPostBySlug(slug))
+  .then(collection => collection.getPostBySlug(slug))
 .then(post => {
-// Do things with post
+  // Do things with post
 })
 
 ```
@@ -226,12 +222,12 @@ As opposed to client.createPost() this will create a post on a given collection 
 ```
 
 client.getCollectionByAlias(alias)
-.then(collection => collection.createNewCollectionPost({
-title: 'Hello',
-body: 'I am a writer'
-}))
-.then(post => {
-// Do things with post
+  .then(collection => collection.createNewCollectionPost({
+  title: 'Hello',
+  body: 'I am a writer'
+  }))
+  .then(post => {
+  // Do things with post
 })
 
 ```
@@ -243,11 +239,11 @@ Pins a post to the top of a collection. Returns the response object
 ```
 
 client.getCollectionByAlias('cocoa')
-.then(collection => {
-collection.pinPostOnCollection('ywlfu4gkyfbhrti5');
-})
-.then(response => {
-// Do things with response
+  .then(collection => {
+  collection.pinPostOnCollection('ywlfu4gkyfbhrti5');
+  })
+  .then(response => {
+  // Do things with response
 })
 
 ```
@@ -259,14 +255,10 @@ Unpins a post from a collection. Returns the response object
 ```
 
 client.getCollectionByAlias('cocoa')
-.then(collection => collection.unpinPostOnCollection(postID)
-)
-.then(response => {
-// Do things with response
+  .then(collection => collection.unpinPostOnCollection(postID)
+  )
+  .then(response => {
+  // Do things with response
 })
-
-```
-
-```
 
 ```
