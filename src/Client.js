@@ -56,13 +56,7 @@ export default class Client {
    * Returns the currently authenticated user, if the client is authenticated and the token is valid, or throws an authentication error.
    */
   getCurrentAuthenticatedUser() {
-    return this._request('GET', '/me').then(response => {
-      if (response.code !== 204) {
-        throw response;
-      }
-
-      return response;
-    });
+    return this._request('GET', '/me').then(response => response);
   }
 
   // TODO: make this less awful
@@ -92,9 +86,8 @@ export default class Client {
         });
 
         // If we've got a delete request we're going to return early, as we don't get a response
-        if (method === 'DELETE') {
-          // TODO: figure out what to do here
-          return { code: 204, message: '' };
+        if (response.status === 204) {
+          return { code: 204, body: '' };
         }
 
         return response.json();
@@ -141,6 +134,11 @@ export default class Client {
         });
 
         console.log(response);
+
+        if (response.status === 204) {
+          return { code: 204, body: '' };
+        }
+
         return await response.json();
       } catch (error) {
         return console.log(error);
@@ -217,6 +215,18 @@ export default class Client {
     // TODO: handle errors
   }
 
+  createCollection(title, alias) {
+    return this._request('POST', '/collections', { title, alias }).then(
+      response => {
+        if (response.error_msg) {
+          throw response;
+        }
+
+        return new Collection(this, response.data);
+      }
+    );
+  }
+
   /* ===== POSTS ===== */
   /**
    * Gets all of the currently authenticated user's posts and returns an array of Post objects. Requires client to be authenticated.
@@ -226,12 +236,4 @@ export default class Client {
       return response.data.map(post => new Post(this, post));
     });
   }
-
-  /* ===== CHANNELS/INTEGRATIONS ===== */
-  // API endpoint seems to be busted
-  // getUserChannels() {
-  //   return this._request('GET', '/me/channels').then(response => {
-  //     console.log(response);
-  //   });
-  // }
 }

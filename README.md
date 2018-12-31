@@ -130,6 +130,19 @@ client.getPost(postID)
 })
 ```
 
+#### Add a post to a collection
+
+```
+client.createPost('Hello there')
+  .then(post => post.addToCollection(alias))
+  .then(response => {
+    // Do things with response
+  })
+  .catch(error => {
+    // Do things with error
+  })
+```
+
 #### Unpublish a post by ID
 
 Returns status code 410 with an error_msg detailing successful unpublish.
@@ -174,6 +187,33 @@ client.getCollectionByAlias(alias)
   .then(collection => {
   // Do things with collection
 })
+```
+
+#### Create a collection (blog)
+
+This requires a pro subscription to Write.as. Returns a Collection object of the new collection.
+
+```
+client.createCollection(title, <alias>)
+  .then(collection => {
+    // Do things with collection
+  })
+  .catch(error => {
+    // Do things with error
+  })
+```
+
+#### Delete a collection (blog)
+
+```
+client.getCollectionByAlias('my-blog')
+  .then(collection => collection.deleteCollection())
+  .then(response => {
+    // Do things with response
+  })
+  .catch(error => {
+    // Do things with error
+  })
 ```
 
 #### Get a collection's posts
@@ -246,6 +286,8 @@ client.getCollectionByAlias('cocoa')
 
 writeasly is a work in progress and is missing some features in the API. However, most functionality is implemented. List of supported endpoints:
 
+writeasly currently supports the vast majority of the write.as API, a complete list of supported/unsupported features:
+
 ### Posts
 
 ✅ Publish an anonymous post
@@ -266,11 +308,11 @@ writeasly is a work in progress and is missing some features in the API. However
 
 ### Collections (blogs)
 
-❌ Create a collection
+✅ Create a collection
 
 ✅ Retrieve a collection
 
-❌ Delete a collection
+✅ Delete a collection
 
 ✅ Retrieve a collection post
 
@@ -278,7 +320,7 @@ writeasly is a work in progress and is missing some features in the API. However
 
 ✅ Retrieve all collection posts
 
-❌ Move a post to a collection
+✅ Move a post to a collection
 
 ✅ Pin a post to a collection
 

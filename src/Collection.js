@@ -37,8 +37,15 @@ export default class Collection {
     // TODO: handle erros
   }
 
-  // TODO: Write this. Use a dummy account, dummy ;)
-  deleteCollection() {}
+  /**
+   * Deletes the collection and returns a 204 if successful or an error if unsuccessful
+   */
+  deleteCollection() {
+    return this.client
+      ._request('DELETE', `/collections/${this.alias}`)
+      .then(response => response);
+  }
+
   /**
    * Creates a new post in a given collection.
    * @param  {String} dataObject - Object containing the properties of a post (body - required, title, font, lang, rtl - optional)
