@@ -8,10 +8,6 @@ writeasly ("write-easily" - I know, I know, terrible!) is a Javascript library i
 
 ```
 npm install writeasly
-
-or
-
-yarn add writeasly
 ```
 
 ## Usage
@@ -27,7 +23,11 @@ const Client = require('writeasly').default; // CommonJS
 const client = new Client();
 ```
 
+### Authentication
+
 #### Authenticate
+
+Logs a user in and adds the user's access token to the client.
 
 ```
 const client = new Client();
@@ -39,7 +39,7 @@ client.authenticate(username, password).catch(error => {
 
 #### Logout
 
-Logs a user out. Returns code 204 for success, 400 for missing auth token, and 404 for an invalid token.
+Logs a user out and invalidates their current access token. Returns code 204 for success, 400 for missing auth token, and 404 for an invalid token.
 
 ```
 client.authenticate(username, password)
@@ -54,7 +54,7 @@ client.authenticate(username, password)
 
 #### Get current authenticated user
 
-Gets basic information on the currently authenticated user.
+Gets basic information on the currently authenticated user and returns an object of the current user's information.
 
 ```
 client
@@ -70,9 +70,11 @@ client
   });
 ```
 
-#### Creating an anonymous post
+### Posts
 
-An unauthenticated client will create an anonymous, unclaimed post, whereas an authenticated client will create an anonymous, claimed post that does not belong to a collection.
+#### Create an anonymous post
+
+An unauthenticated client will create an anonymous, unclaimed post that returns a Post object with the _post token_, which must be stored in order to claim or modify the post later, whereas an authenticated client will create an anonymous, claimed post that does not belong to any collection, but may be added to one with the `Post.addToCollection(alias)` method.
 
 ```
 client.createPost(
@@ -86,6 +88,8 @@ client.createPost(
 
 #### Get a post by ID
 
+Fetches a post by its unique ID (as opposed to its slug) and returns a Post object of the post.
+
 ```
 client.getPost(id)
   .then(post => {
@@ -93,14 +97,22 @@ client.getPost(id)
 })
 ```
 
-#### Update a post by ID
+#### Get a user's posts
+
+Fetches and returns an array of a user's posts as Post objects.
 
 ```
-client.updatePost(postID, data, token)
-  .then(post => {
-  // Do stuff with updated post object
+client.getUserPosts()
+  .then(posts => {
+    // Do things with posts
 })
+```
 
+#### Update a post by ID
+
+Updates a given by its unique ID, with the body argument being required and the others being optional. This returns the updated Post object as it stands after the update.
+
+```
 client.getPost(postID)
   .then(post => post.update(body, {title, font, lang, rtl}))
   .then(updatedPost => {
@@ -110,7 +122,7 @@ client.getPost(postID)
 
 #### Delete a post by ID
 
-Returns a 204 status code upon deletion success
+Sends a DELETE request for a post by its unique ID, returning either an object with a 204 status code or the error object if unsuccessful.
 
 ```
 client.getPost(postID)
@@ -131,6 +143,8 @@ client.getPost(postID)
 ```
 
 #### Add a post to a collection
+
+Adds a previously created, claimed post to the collection that is provided via the alias argument. Returns an array with the status code and, if successful, the Post object of the post.
 
 ```
 client.createPost('Hello there')
@@ -154,9 +168,11 @@ client.getPost(postID)
 
 ```
 
+### Collections
+
 #### Get a user's collections
 
-Returns an array of a user's collections (blogs).
+Fetches and returns an array of a user's collections (blogs) as Collection objects.
 
 ```
 client.authenticate(username, password);
@@ -167,20 +183,9 @@ client.getUserCollections()
 })
 ```
 
-#### Get a user's posts
-
-Returns an array of a user's posts
-
-```
-client.getUserPosts()
-  .then(posts => {
-    // Do things with posts
-})
-```
-
 #### Get a collection by alias (blog title)
 
-Returns a collection object for a given blog
+Returns a collection object for a given blog.
 
 ```
 client.getCollectionByAlias(alias)
@@ -191,7 +196,7 @@ client.getCollectionByAlias(alias)
 
 #### Create a collection (blog)
 
-This requires a pro subscription to Write.as. Returns a Collection object of the new collection.
+**This requires a pro subscription to Write.as**. Returns a Collection object of the new collection if successful or throws an error object detailing the error.
 
 ```
 client.createCollection(title, <alias>)
@@ -204,6 +209,8 @@ client.createCollection(title, <alias>)
 ```
 
 #### Delete a collection (blog)
+
+Deletes the collection object that the method is called on and returns either a success object with a 204 HTTP status and an empty body or an error and relevant error message.
 
 ```
 client.getCollectionByAlias('my-blog')
@@ -218,7 +225,7 @@ client.getCollectionByAlias('my-blog')
 
 #### Get a collection's posts
 
-Returns an array of posts from a given collection
+Returns an array of Post objects of the posts from a given collection.
 
 ```
 client.getCollectionByAlias(alias)
@@ -257,12 +264,12 @@ client.getCollectionByAlias(alias)
 
 #### Pin a post to a collection
 
-Pins a post to the top of a collection. Returns the response object
+Pins a post to the top of a collection. If no position is provided the pinned post will be pinned to the end of the list of stickied posts, otherwise it will be pinned in the position that is provided as an argument. Returns the response object.
 
 ```
 client.getCollectionByAlias('cocoa')
   .then(collection => {
-  collection.pinPostOnCollection('ywlfu4gkyfbhrti5');
+  collection.pinPostOnCollection(postID, position);
   })
   .then(response => {
   // Do things with response
@@ -271,7 +278,7 @@ client.getCollectionByAlias('cocoa')
 
 #### Unpin a post on a collection
 
-Unpins a post from a collection. Returns the response object
+Unpins a post from a collection. Returns the response object.
 
 ```
 client.getCollectionByAlias('cocoa')
@@ -284,9 +291,7 @@ client.getCollectionByAlias('cocoa')
 
 ## Features
 
-writeasly is a work in progress and is missing some features in the API. However, most functionality is implemented. List of supported endpoints:
-
-writeasly currently supports the vast majority of the write.as API, a complete list of supported/unsupported features:
+writeasly currently supports the vast majority of the write.as API, a complete list of currently supported/unsupported features:
 
 ### Posts
 
