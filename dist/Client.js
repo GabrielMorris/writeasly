@@ -49,6 +49,14 @@ var Client = function () {
     this.accessToken = accessToken;
   }
 
+  /**
+   *
+   * @param {String} username - Username of the user to be logged in
+   * @param {String} password - Password of the user to be logged in
+   * @param {String} type - Type of request to be made. Currently only supports HTTPS authentication
+   */
+
+
   _createClass(Client, [{
     key: 'authenticate',
     value: function () {
@@ -92,6 +100,11 @@ var Client = function () {
 
       return authenticate;
     }()
+
+    /**
+     * Logs the currently authenticated user out, if client is authenticated, and invalidates their current authentication token.
+     */
+
   }, {
     key: 'logout',
     value: function logout() {
@@ -104,19 +117,26 @@ var Client = function () {
       });
       // TODO: handle errors
     }
+
+    /**
+     * Returns the currently authenticated user, if the client is authenticated and the token is valid, or throws an authentication error.
+     */
+
   }, {
     key: 'getCurrentAuthenticatedUser',
     value: function getCurrentAuthenticatedUser() {
       return this._request('GET', '/me').then(function (response) {
-        if (response.code !== 204) {
-          throw response;
-        }
-
         return response;
       });
     }
 
     // TODO: make this less awful
+    /**
+     *
+     * @param {String} method - HTTP method of the request to be made (GET, POST, DELETE are supported)
+     * @param {String} path - API endpoint location. '/api/' is implicit and should not be included
+     * @param {Object} data - Object of data to be passed in as the JSON body of the request
+     */
 
   }, {
     key: '_request',
@@ -154,12 +174,12 @@ var Client = function () {
               case 9:
                 response = _context2.sent;
 
-                if (!(method === 'DELETE')) {
+                if (!(response.status === 204)) {
                   _context2.next = 12;
                   break;
                 }
 
-                return _context2.abrupt('return', { code: 204, message: '' });
+                return _context2.abrupt('return', { code: 204, body: '' });
 
               case 12:
                 return _context2.abrupt('return', response.json());
@@ -170,7 +190,7 @@ var Client = function () {
                 return _context2.abrupt('return', console.log(_context2.t0));
 
               case 18:
-                _context2.next = 54;
+                _context2.next = 56;
                 break;
 
               case 20:
@@ -212,7 +232,7 @@ var Client = function () {
                 return _context2.abrupt('return', console.log(_context2.t1));
 
               case 36:
-                _context2.next = 54;
+                _context2.next = 56;
                 break;
 
               case 38:
@@ -240,23 +260,32 @@ var Client = function () {
 
 
                 console.log(_response2);
-                _context2.next = 48;
-                return _response2.json();
+
+                if (!(_response2.status === 204)) {
+                  _context2.next = 48;
+                  break;
+                }
+
+                return _context2.abrupt('return', { code: 204, body: '' });
 
               case 48:
+                _context2.next = 50;
+                return _response2.json();
+
+              case 50:
                 return _context2.abrupt('return', _context2.sent);
 
-              case 51:
-                _context2.prev = 51;
+              case 53:
+                _context2.prev = 53;
                 _context2.t2 = _context2['catch'](41);
                 return _context2.abrupt('return', console.log(_context2.t2));
 
-              case 54:
+              case 56:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[6, 15], [24, 33], [41, 51]]);
+        }, _callee2, this, [[6, 15], [24, 33], [41, 53]]);
       }));
 
       function _request(_x5, _x6, _x7) {
@@ -268,6 +297,7 @@ var Client = function () {
 
     /* === POST MANAGEMENT === */
     /**
+     * Creates an anonymous post that is either truly anonymous (not tied to a user's account) or pseudoanonymous (tied to a user's account, but not connected to any collection)
      * @param  {object} body - Object of post body
      * @param  {string} title - String representation of post title
      * @param  {string} font - Post's font
@@ -309,6 +339,7 @@ var Client = function () {
     }
 
     /**
+     * Returns the post that corresponds to the postID that is passed to it.
      * @param  {string} postID - ID of post to retreieve
      *
      * @returns {Promise} promise that resolves to post JSON
@@ -328,6 +359,9 @@ var Client = function () {
 
     /* === USER MANAGEMENT === */
     /* ===== COLLECTIONS ===== */
+    /**
+     * Returns an array of all of the the currently authenticated user's collections. Requires client to be authenticated.
+     */
 
   }, {
     key: 'getUserCollections',
@@ -341,6 +375,11 @@ var Client = function () {
       });
       // TODO: handle errors
     }
+
+    /**
+     * Returns a collection (blog) object based on its name (title).
+     */
+
   }, {
     key: 'getCollectionByAlias',
     value: function getCollectionByAlias(alias) {
@@ -351,29 +390,36 @@ var Client = function () {
       });
       // TODO: handle errors
     }
+  }, {
+    key: 'createCollection',
+    value: function createCollection(title, alias) {
+      var _this5 = this;
+
+      return this._request('POST', '/collections', { title: title, alias: alias }).then(function (response) {
+        if (response.error_msg) {
+          throw response;
+        }
+
+        return new _Collection2.default(_this5, response.data);
+      });
+    }
 
     /* ===== POSTS ===== */
+    /**
+     * Gets all of the currently authenticated user's posts and returns an array of Post objects. Requires client to be authenticated.
+     */
 
   }, {
     key: 'getUserPosts',
     value: function getUserPosts() {
-      var _this5 = this;
+      var _this6 = this;
 
       return this._request('GET', '/me/posts').then(function (response) {
         return response.data.map(function (post) {
-          return new _Post2.default(_this5, post);
+          return new _Post2.default(_this6, post);
         });
       });
     }
-
-    /* ===== CHANNELS/INTEGRATIONS ===== */
-    // API endpoint seems to be busted
-    // getUserChannels() {
-    //   return this._request('GET', '/me/channels').then(response => {
-    //     console.log(response);
-    //   });
-    // }
-
   }]);
 
   return Client;

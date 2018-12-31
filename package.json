@@ -1,6 +1,6 @@
 {
   "name": "writeasly",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Write.as client library",
   "main": "dist/Client.js",
   "repository": {

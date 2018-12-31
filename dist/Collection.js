@@ -28,6 +28,10 @@ var Collection = function () {
     this.email = data.email || null;
     this.totalPosts = data.total_posts || null;
   }
+  /**
+   * Gets all posts from a given collection and returns an array of Post objects
+   */
+
 
   _createClass(Collection, [{
     key: 'getPosts',
@@ -44,6 +48,11 @@ var Collection = function () {
         return console.error(error);
       });
     }
+    /**
+     * Returns a post from a given collection by its post slug (title)
+     * @param  {String} slug - String of a post's slug (URL title)
+     */
+
   }, {
     key: 'getPostBySlug',
     value: function getPostBySlug(slug) {
@@ -55,11 +64,23 @@ var Collection = function () {
       // TODO: handle erros
     }
 
-    // TODO: Write this. Use a dummy account, dummy ;)
+    /**
+     * Deletes the collection and returns a 204 if successful or an error if unsuccessful
+     */
 
   }, {
     key: 'deleteCollection',
-    value: function deleteCollection() {}
+    value: function deleteCollection() {
+      return this.client._request('DELETE', '/collections/' + this.alias).then(function (response) {
+        return response;
+      });
+    }
+
+    /**
+     * Creates a new post in a given collection.
+     * @param  {String} dataObject - Object containing the properties of a post (body - required, title, font, lang, rtl - optional)
+     */
+
   }, {
     key: 'createNewCollectionPost',
     value: function createNewCollectionPost(dataObject) {
@@ -70,6 +91,12 @@ var Collection = function () {
       });
       // TODO: handle errors
     }
+    /**
+     * Pins a post to the top of a collection, equivalent to stickying a post.
+     * @param  {String} postID - ID of the post to be pinned to a collection
+     * @param  {Integer} position - Numeric position of a given post in the pin hierarchy. Defaults to end of the list.
+     */
+
   }, {
     key: 'pinPostOnCollection',
     value: function pinPostOnCollection(postID, position) {
@@ -81,6 +108,11 @@ var Collection = function () {
       });
       // TODO: handle errors
     }
+    /**
+     * Unpins a given post from its collection, restoring it to its normal location within the chronological flow of your posts.
+     * @param  {String} postID - ID of the post that will be unpinned
+     */
+
   }, {
     key: 'unpinPostOnCollection',
     value: function unpinPostOnCollection(postID) {
